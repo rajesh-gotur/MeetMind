@@ -1,0 +1,22 @@
+# MeetMind 5.0 server.  Install:  python -m pip install -r requirements.txt
+fastapi==0.115.6
+uvicorn[standard]==0.34.0
+httpx==0.28.1
+pydantic==2.10.4
+PyYAML==6.0.2
+python-multipart==0.0.20
+python-docx==1.1.2
+openpyxl==3.1.5
+
+# Accuracy layers (light, CPU only)
+numpy>=1.26
+av>=12.0               # L1 audio preparation (bundled FFmpeg)
+onnxruntime>=1.17      # L2 Silero voice detection (model file is included)
+rapidfuzz>=3.6         # L8 glossary fixer, quote checks
+jellyfish>=1.0         # L8 sound-alike matching
+dateparser>=1.2        # L12 spoken deadlines -> calendar dates
+
+# The MeetMind bot (after installing, run once:  python -m playwright install chromium)
+playwright>=1.48
+# Same API as Playwright, without the debugger traces Google's "not a bot" check looks for
+patchright>=1.48

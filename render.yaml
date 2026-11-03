@@ -1,0 +1,22 @@
+# Render Blueprint: New -> Blueprint -> pick this repo.
+# After the first deploy, open the service's Environment tab and fill the secrets.
+services:
+  - type: web
+    name: meetmind-api
+    runtime: docker
+    plan: free
+    rootDir: backend
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /health
+    envVars:
+      - key: DEEPGRAM_API_KEY
+        sync: false
+      - key: GROQ_API_KEY
+        sync: false
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: APP_TOKEN
+        sync: false
+      # The bot needs a real browser window; run it on your own computer instead.
+      - key: BOT_ENABLED
+        value: "false"

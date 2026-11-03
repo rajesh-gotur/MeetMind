@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>MeetMind bot</title>
+    <link rel="stylesheet" href="/bot/live/app.css" />
+    <script src="/bot/live/app.js" defer></script>
+  </head>
+  <body data-phase="starting">
+    <header class="top">
+      <div class="brand">
+        <span class="brand__mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+        <span class="brand__name">MeetMind</span>
+        <span class="brand__tag">Bot mode</span>
+      </div>
+      <div class="top__right">
+        <span id="code" class="code"></span>
+        <span id="pill" class="pill"><span class="pill__dot"></span><span id="pill-text">Starting</span></span>
+      </div>
+    </header>
+
+    <main class="page">
+      <section class="stage" aria-live="polite">
+        <div class="stage__main">
+          <p id="eyebrow-time" class="stage__time">00:00:00</p>
+          <h1 id="headline" class="stage__headline">Getting the bot ready</h1>
+          <p id="subline" class="stage__sub">Checking the MeetMind server and opening a browser.</p>
+          <div class="stage__actions">
+            <button id="stop-btn" class="btn btn--stop" type="button" hidden>
+              <span class="btn__square" aria-hidden="true"></span>Stop and create notes
+            </button>
+            <button id="download-btn" class="btn btn--primary" type="button" hidden>
+              <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M12 16 7 11l1.4-1.4 2.6 2.6V4h2v8.2l2.6-2.6L17 11l-5 5Zm-7 4v-2h14v2H5Z"/></svg>
+              <span>Download all files</span>
+            </button>
+          </div>
+        </div>
+        <div class="orb" aria-hidden="true">
+          <canvas id="orb" width="520" height="520"></canvas>
+          <div class="orb__core"><span id="orb-icon"></span></div>
+        </div>
+      </section>
+
+      <ol class="timeline" id="timeline">
+        <li data-step="joining"><span class="dot"></span><b>Join</b><small>Opens the link as a guest</small></li>
+        <li data-step="waiting"><span class="dot"></span><b>Admit</b><small>Someone clicks Admit</small></li>
+        <li data-step="recording"><span class="dot"></span><b>Record</b><small>Call audio and captions</small></li>
+        <li data-step="writing"><span class="dot"></span><b>Write notes</b><small>Fix words, name speakers</small></li>
+        <li data-step="done"><span class="dot"></span><b>Ready</b><small>MOM, Word, Excel, transcript</small></li>
+      </ol>
+
+      <section id="error" class="alert" role="alert" hidden></section>
+
+      <section id="results" class="results" hidden>
+        <div class="results__head">
+          <h2 id="result-title">Meeting notes</h2>
+          <dl class="stats">
+            <div><dt>Length</dt><dd id="r-length">–</dd></div>
+            <div><dt>People</dt><dd id="r-people">–</dd></div>
+            <div><dt>Tasks</dt><dd id="r-tasks">–</dd></div>
+            <div><dt>Words fixed</dt><dd id="r-fixed">–</dd></div>
+          </dl>
+        </div>
+        <p id="r-summary" class="results__summary"></p>
+        <ul id="r-task-list" class="tasks"></ul>
+        <p id="r-file" class="muted small"></p>
+      </section>
+
+      <div class="grid">
+        <section class="card card--people">
+          <h2 class="card__title">People</h2>
+          <ul id="people" class="people"><li class="empty">Names appear when the bot is in the call.</li></ul>
+        </section>
+
+        <section class="card card--captions">
+          <div class="card__head">
+            <h2 id="captions-title" class="card__title">Live transcript</h2>
+            <span id="cc-state" class="chip">Captions off</span>
+          </div>
+          <div id="captions" class="captions"><p class="empty">What people say appears here, with their names.</p></div>
+        </section>
+
+        <section class="card card--audio">
+          <h2 class="card__title">Audio</h2>
+          <div class="wave" id="wave" aria-hidden="true"></div>
+          <div class="audio-meta">
+            <span id="tracks" class="muted small">No call audio yet</span>
+            <span id="engine" class="muted small"></span>
+          </div>
+          <div id="pieces" class="pieces"></div>
+        </section>
+
+        <section class="card card--log">
+          <h2 class="card__title">What the bot did</h2>
+          <ol id="events" class="events"></ol>
+          <ul id="warnings" class="warnings"></ul>
+        </section>
+      </div>
+
+      <p class="foot">
+        Bot mode gives the most accurate notes: clean call audio straight from Meet, and captions in the bot's own window
+        for exact names. Nobody else sees those captions.
+      </p>
+    </main>
+  </body>
+</html>

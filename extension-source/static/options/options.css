@@ -1,0 +1,390 @@
+body {
+  min-height: 100vh;
+  background: var(--canvas);
+}
+
+.backdrop {
+  position: absolute;
+  inset: 0 0 auto;
+  height: 300px;
+  background:
+    radial-gradient(60% 120% at 85% 0%, rgb(143 220 188 / 0.25), transparent 60%),
+    radial-gradient(50% 100% at 10% 100%, rgb(233 162 59 / 0.18), transparent 60%),
+    linear-gradient(160deg, var(--forest-2), var(--forest));
+  pointer-events: none;
+}
+.backdrop::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgb(255 255 255 / 0.05) 1px, transparent 1px);
+  background-size: 4px 4px;
+}
+
+.page {
+  position: relative;
+  max-width: 620px;
+  margin: 0 auto;
+  padding: 56px 16px 40px;
+}
+
+.page__header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 28px;
+}
+.page__header img {
+  border-radius: 12px;
+  box-shadow: var(--shadow-2);
+}
+.page__header h1 {
+  font-size: 30px;
+  letter-spacing: -0.03em;
+  color: #fff;
+}
+.page__header p {
+  margin-top: 2px;
+  color: var(--forest-muted);
+}
+
+/* ---------- stepper: the setup really is a sequence ---------- */
+.stepper {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin: 0 0 14px;
+  padding: 0;
+  list-style: none;
+}
+.stepper button {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid rgb(255 255 255 / 0.14);
+  border-radius: var(--radius);
+  background: rgb(255 255 255 / 0.07);
+  color: var(--forest-muted);
+  font: 600 13px var(--font);
+  cursor: pointer;
+  transition:
+    border-color var(--fast),
+    color var(--fast);
+}
+.stepper button:disabled {
+  cursor: default;
+}
+.stepper__num {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: rgb(255 255 255 / 0.12);
+  font-size: 12px;
+  transition:
+    background var(--medium),
+    color var(--medium);
+}
+.stepper li[data-state="current"] button {
+  border-color: var(--mint);
+  background: rgb(255 255 255 / 0.14);
+  color: #fff;
+}
+.stepper li[data-state="current"] .stepper__num {
+  background: var(--mint);
+  color: var(--forest);
+}
+.stepper li[data-state="done"] button {
+  color: var(--forest-ink);
+}
+.stepper li[data-state="done"] .stepper__num {
+  background: var(--marigold);
+  color: var(--forest);
+  font-size: 0;
+}
+.stepper li[data-state="done"] .stepper__num::before {
+  content: "✓";
+  font-size: 12px;
+  font-weight: 700;
+}
+
+/* ---------- cards ---------- */
+.card {
+  padding: 28px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-l);
+  background: var(--card);
+  box-shadow: 0 1px 2px rgb(18 32 26 / 0.05), 0 24px 48px -24px rgb(11 61 46 / 0.35);
+  animation: appear var(--medium) var(--ease-out);
+}
+.card h2 {
+  margin-bottom: 6px;
+  font-size: 22px;
+}
+.card > p {
+  margin-bottom: 20px;
+  max-width: 62ch;
+}
+
+.actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 24px;
+}
+.actions--center {
+  justify-content: center;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-weight: 550;
+}
+.input {
+  height: 44px;
+  font-size: 15px;
+}
+
+/* ---------- step 1: checks ---------- */
+.checks {
+  display: grid;
+  gap: 2px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.check-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: var(--radius-s);
+  transition: background var(--medium);
+}
+.check-row div {
+  display: flex;
+  flex-direction: column;
+}
+.check-row b {
+  font-weight: 600;
+}
+.check-row small {
+  color: var(--muted);
+  font-size: 12.5px;
+}
+.check-row__icon {
+  flex: none;
+  width: 20px;
+  height: 20px;
+  margin-top: 1px;
+  border-radius: 50%;
+  border: 2px solid var(--line-strong);
+}
+.check-row[data-state="running"] .check-row__icon {
+  border-color: var(--jade);
+  border-top-color: transparent;
+  animation: spin 0.8s linear infinite;
+}
+.check-row[data-state="ok"] .check-row__icon {
+  border-color: var(--jade);
+  background: var(--jade)
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='white' d='m9 16.2-3.5-3.5L4 14.2l5 5 11-11-1.4-1.4z'/%3E%3C/svg%3E")
+    center / 13px no-repeat;
+}
+.check-row[data-state="warn"] {
+  background: var(--marigold-soft);
+}
+.check-row[data-state="warn"] .check-row__icon {
+  border-color: var(--marigold);
+  background: var(--marigold);
+}
+.check-row[data-state="warn"] small {
+  color: var(--marigold-ink);
+}
+.check-row[data-state="fail"] {
+  background: var(--error-soft);
+}
+.check-row[data-state="fail"] .check-row__icon {
+  border-color: var(--error-ink);
+  background: var(--error-ink)
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='white' d='M19 6.4 17.6 5 12 10.6 6.4 5 5 6.4 10.6 12 5 17.6 6.4 19l5.6-5.6 5.6 5.6 1.4-1.4-5.6-5.6z'/%3E%3C/svg%3E")
+    center / 12px no-repeat;
+}
+.check-row[data-state="fail"] small {
+  color: var(--error-ink);
+}
+
+/* ---------- step 2: caption preview (Meet's own dark caption bar) ---------- */
+.caption-demo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 16px;
+  padding: 14px 16px;
+  border-radius: var(--radius);
+  background: #202124;
+  color: #9aa0a6;
+}
+.caption-demo__bubble {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-width: 0;
+  font-size: 13px;
+  color: #e8eaed;
+}
+.caption-demo__bubble b {
+  color: #9aa0a6;
+  font-size: 12px;
+}
+.caption-demo__bubble--after b {
+  color: #7fd1ae;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ---------- step 3: microphone ---------- */
+.mic-box {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  transition:
+    border-color var(--medium),
+    background var(--medium);
+}
+.mic-box__icon {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: var(--sunk);
+  color: var(--muted);
+}
+.mic-box__body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+.mic-box[data-state="granted"] {
+  border-color: var(--jade);
+  background: var(--jade-soft);
+}
+.mic-box[data-state="granted"] .mic-box__icon {
+  background: var(--jade);
+  color: #fff;
+}
+.mic-box[data-state="denied"] {
+  border-color: var(--error-ink);
+  background: var(--error-soft);
+}
+.level {
+  height: 8px;
+  margin-top: 8px;
+  border-radius: 999px;
+  background: var(--card);
+  overflow: hidden;
+}
+.level__fill {
+  display: block;
+  width: 0;
+  height: 100%;
+  border-radius: 999px;
+  background: var(--jade);
+  transition: width 90ms linear;
+}
+#skip-mic {
+  display: block;
+  margin: 12px auto 0;
+}
+
+/* ---------- done ---------- */
+.done {
+  text-align: center;
+}
+.big-check {
+  margin-bottom: 8px;
+}
+.big-check__circle {
+  fill: var(--jade-soft);
+  stroke: var(--jade);
+  stroke-width: 2.5;
+  stroke-dasharray: 151;
+  stroke-dashoffset: 151;
+  animation: draw 700ms var(--ease-out) forwards;
+}
+.big-check__mark {
+  fill: none;
+  stroke: var(--jade);
+  stroke-width: 4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 36;
+  stroke-dashoffset: 36;
+  animation: draw 400ms 500ms var(--ease-out) forwards;
+}
+.done > p {
+  margin: 4px auto 18px;
+}
+.tips {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  text-align: left;
+}
+.tip {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--canvas);
+}
+.tip span {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  margin-bottom: 4px;
+  border-radius: 50%;
+  background: var(--jade);
+  color: #fff;
+  font-weight: 700;
+  font-size: 12px;
+}
+.tip small {
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+.footer {
+  margin-top: 20px;
+  text-align: center;
+}
+
+@media (max-width: 560px) {
+  .tips {
+    grid-template-columns: 1fr;
+  }
+  .stepper button {
+    justify-content: center;
+    font-size: 0;
+  }
+  .stepper__num {
+    font-size: 12px;
+  }
+}

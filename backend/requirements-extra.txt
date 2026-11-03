@@ -1,0 +1,14 @@
+# OPTIONAL heavy local models (MeetMind uses them automatically when installed).
+# They only listen again to the doubtful parts of a meeting, on your CPU.
+#   python -m pip install -r requirements-extra.txt
+#
+# AI4Bharat IndicConformer (Hindi): the model is "gated" on Hugging Face. Once:
+#   1. open https://huggingface.co/ai4bharat/indic-conformer-600m-multilingual and accept its conditions
+#   2. run:  huggingface-cli login   (paste a free read token from huggingface.co/settings/tokens)
+# The first use downloads the models (a few GB), so the first meeting is slower.
+
+faster-whisper>=1.0    # local Whisper: English-heavy doubtful parts, offline backup
+transformers>=4.44     # IndicConformer loader
+torch>=2.2
+torchaudio>=2.2
+huggingface_hub>=0.24

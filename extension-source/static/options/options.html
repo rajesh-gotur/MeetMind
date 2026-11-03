@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MeetMind Setup</title>
+  <link rel="stylesheet" href="../styles/theme.css" />
+  <link rel="stylesheet" href="options.css" />
+  <script type="module" src="options.js"></script>
+</head>
+
+<body>
+  <div class="backdrop" aria-hidden="true"></div>
+  <main class="page">
+    <header class="page__header">
+      <img src="../icons/icon-48.png" alt="" width="44" height="44" />
+      <div>
+        <h1>MeetMind setup</h1>
+        <p class="muted">Three short steps, about a minute in total.</p>
+      </div>
+    </header>
+
+    <ol class="stepper" id="stepper">
+      <li><button type="button" data-goto="1"><span class="stepper__num">1</span>Connect</button></li>
+      <li><button type="button" data-goto="2"><span class="stepper__num">2</span>Your name</button></li>
+      <li><button type="button" data-goto="3"><span class="stepper__num">3</span>Microphone</button></li>
+    </ol>
+
+    <!-- Step 1: server -->
+    <section class="card step" data-step="1" hidden>
+      <h2>Connect to the MeetMind server</h2>
+      <p class="muted">We check the server details in <code>config.js</code>. A sleeping free server can take up to a
+        minute to wake.</p>
+      <ul class="checks">
+        <li id="check-config" class="check-row"><span class="check-row__icon"></span>
+          <div><b>Config file</b><small></small></div>
+        </li>
+        <li id="check-server" class="check-row"><span class="check-row__icon"></span>
+          <div><b>Server reachable</b><small></small></div>
+        </li>
+        <li id="check-token" class="check-row"><span class="check-row__icon"></span>
+          <div><b>App token accepted</b><small></small></div>
+        </li>
+        <li id="check-stt" class="check-row"><span class="check-row__icon"></span>
+          <div><b>Speech-to-text ready</b><small></small></div>
+        </li>
+        <li id="check-notes" class="check-row"><span class="check-row__icon"></span>
+          <div><b>Meeting notes ready</b><small></small></div>
+        </li>
+      </ul>
+      <div class="actions">
+        <button id="recheck-btn" type="button" class="btn btn--ghost">Check again</button>
+        <button id="next-1" type="button" class="btn btn--primary" disabled>Continue</button>
+      </div>
+    </section>
+
+    <!-- Step 2: name -->
+    <section class="card step" data-step="2" hidden>
+      <h2>What is your name in Google Meet?</h2>
+      <p class="muted">MeetMind records your microphone on its own, so every line you say is labelled with this name.
+        Type it the way it appears in Meet.</p>
+      <label class="form-field">
+        <span>Your name</span>
+        <input id="display-name" class="input" type="text" autocomplete="name" placeholder="e.g. Rajesh Gotur"
+          maxlength="60" />
+      </label>
+      <div class="caption-demo" aria-hidden="true">
+        <div class="caption-demo__bubble"><b>Your mic</b><span>Let's start the stand-up.</span></div>
+        <svg viewBox="0 0 24 24" width="20" height="20">
+          <path fill="currentColor" d="M12 4 10.6 5.4 16.2 11H4v2h12.2l-5.6 5.6L12 20l8-8z" />
+        </svg>
+        <div class="caption-demo__bubble caption-demo__bubble--after"><b id="demo-name">Your name</b><span>Let's start
+            the stand-up.</span></div>
+      </div>
+      <div class="actions">
+        <button type="button" class="btn btn--ghost" data-goto="1">Back</button>
+        <button id="next-2" type="button" class="btn btn--primary" disabled>Continue</button>
+      </div>
+    </section>
+
+    <!-- Step 3: microphone -->
+    <section class="card step" data-step="3" hidden>
+      <h2>Allow your microphone</h2>
+      <p class="muted">So your own voice is in the recording. Chrome asks once; MeetMind only listens while you are
+        recording.</p>
+      <div id="mic-box" class="mic-box" data-state="prompt">
+        <div class="mic-box__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="26" height="26">
+            <path fill="currentColor"
+              d="M12 14a3 3 0 0 0 3-3V5a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3Zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.9V21h2v-3.1A7 7 0 0 0 19 11h-2Z" />
+          </svg>
+        </div>
+        <div class="mic-box__body">
+          <b id="mic-title">Microphone not allowed yet</b>
+          <small id="mic-text" class="muted">Click Allow, then choose "Allow" in Chrome's prompt.</small>
+          <div id="mic-meter" class="level" hidden><span id="mic-level" class="level__fill"></span></div>
+        </div>
+        <button id="mic-btn" type="button" class="btn btn--primary">Allow</button>
+      </div>
+      <div class="actions">
+        <button type="button" class="btn btn--ghost" data-goto="2">Back</button>
+        <button id="finish-btn" type="button" class="btn btn--primary">Finish setup</button>
+      </div>
+      <button id="skip-mic" type="button" class="btn btn--link">I will record without my microphone</button>
+    </section>
+
+    <!-- Done -->
+    <section class="card step done" data-step="4" hidden>
+      <svg class="big-check" viewBox="0 0 52 52" width="72" height="72" aria-hidden="true">
+        <circle class="big-check__circle" cx="26" cy="26" r="24" />
+        <path class="big-check__mark" d="M15 27l7 7 15-15" />
+      </svg>
+      <h2>You are all set</h2>
+      <p class="muted">Here is how to record your next meeting:</p>
+      <div class="tips">
+        <div class="tip"><span>1</span><b>Pin MeetMind</b><small>Click the puzzle icon in Chrome's toolbar and pin
+            MeetMind.</small></div>
+        <div class="tip"><span>2</span><b>Start in the call</b><small>Join a Meet call, tell everyone, then click Start
+            recording.</small></div>
+        <div class="tip"><span>3</span><b>Stop and download</b><small>Click Stop. Minutes, tasks, the Word report and
+            the Excel tracker are ready in a minute or two.</small></div>
+      </div>
+      <div class="actions actions--center">
+        <button type="button" class="btn btn--ghost" data-goto="1">Review settings</button>
+        <button id="close-btn" type="button" class="btn btn--primary">Close this tab</button>
+      </div>
+    </section>
+
+    <p class="muted small footer">
+      Connected to <span id="server-url"></span>. Audio goes to this server only to be transcribed, and it keeps
+      nothing.
+    </p>
+  </main>
+</body>
+
+</html>

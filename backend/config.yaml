@@ -1,0 +1,160 @@
+# =====================================================================
+#  MeetMind 5.0 - server settings (the ONLY server file you edit)
+# =====================================================================
+#
+#  QUICK SETUP - fill in these 4 lines, then run:  python run.py
+#
+#   1. app_token  : any long random text. Make one with:
+#                     python -c "import secrets; print(secrets.token_urlsafe(32))"
+#                   Put the SAME text in extension/config.js -> appToken
+#   2. Gemini key : https://aistudio.google.com/apikey  (free)  - main ear + notes
+#   3. Deepgram   : https://console.deepgram.com        ($200 free credit) - word timings
+#   4. Groq key   : https://console.groq.com/keys       (free) - backup ear + reviewer AI
+#
+#  Everything below the keys already has good defaults. Each setting says what it does.
+# =====================================================================
+
+server:
+  app_token: ""                      # <-- 1. paste your app token here
+  host: 0.0.0.0
+  port: 8000
+
+gemini:
+  api_key: ""              # <-- 2. Gemini key
+  # Speech-to-text "ear" with your glossary as custom vocabulary. Empty = skip.
+  transcribe_model: gemini-3.5-transcribe
+  transcribe_timeout_seconds: 180
+  # Languages expected when the extension says "Auto".
+  transcribe_languages: [en-IN, hi-IN]
+  # Models that write the notes, tried in order (each gets timeout_seconds).
+  models:
+    - gemini-3.5-flash-lite
+    - gemini-3.8-flash
+  timeout_seconds: 45
+  thinking_level: low                # low = fast; high = slower; "" = model default
+  base_url: https://generativelanguage.googleapis.com/v1beta
+
+deepgram:
+  api_key: ""    # <-- 3. Deepgram key
+  model: nova-3
+  auto_language: multi               # "multi" = English mixed with Hindi; "en" for English-only teams
+  timeout_seconds: 180
+  max_retries: 2
+  base_url: https://api.deepgram.com/v1
+
+groq:
+  api_key: ""     # <-- 4. Groq key
+  model: whisper-large-v3            # backup ear
+  summary_fallback_model: openai/gpt-oss-120b   # backup writer AND the reviewer AI (a different model)
+  timeout_seconds: 120
+  max_retries: 3
+  base_url: https://api.groq.com/openai/v1
+
+# ---------------------------------------------------------------------
+#  Accuracy layers (every recording passes through all of them)
+# ---------------------------------------------------------------------
+pipeline:
+  ears:                              # independent speech engines, compared word by word
+    gemini: true                     # Gemini 3.5 Transcribe (best words, Hinglish)
+    deepgram: true                   # Deepgram Nova-3 (timings, confidence)
+    captions: true                   # Meet captions (bot only, only the bot sees them)
+    groq_whisper: true               # free backup when an ear fails
+    local_whisper: auto              # faster-whisper on your CPU   (auto = use if installed)
+    indic: auto                      # AI4Bharat IndicConformer, Hindi (auto = use if installed)
+  voice_detection: true              # Silero VAD: cut at pauses, skip silence
+  glossary_fixer: true               # spelling + sound-alike fixes (RapidFuzz + Jellyfish)
+  ai_fixer: true                     # AI chooses between the ears' versions of doubtful words
+  doubt_below: 0.72                  # words scored below this (0-1) are double-checked
+  max_doubts_per_call: 80
+
+vocabulary:
+  # Words every layer must spell exactly like this (client names, colleagues, project words).
+  terms:
+    - ERPNext
+    - Frappe
+    - Frappe Framework
+    - Frappe Cloud
+    - DocType
+    - Child Table
+    - Workspace
+    - Custom HTML Block
+    - Server Script
+    - Client Script
+    - Print Format
+    - Sales Order
+    - Sales Invoice
+    - Purchase Order
+    - Purchase Invoice
+    - Stock Entry
+    - Journal Entry
+    - Payment Entry
+    - Bill of Entry
+    - ICEGATE
+    - Redmine
+    - FastAPI
+    - Next.js
+    - PostgreSQL
+    - MariaDB
+    - GitHub
+    - AWS
+    - Claude
+    - ChatGPT
+    - Gemini
+  correct_transcript: true           # the notes AI may also fix misheard words (checked for safety)
+  learn: true                        # remember corrected terms for the next meetings (learned_terms.json)
+
+notes:
+  review: true                       # a second, different AI checks the notes
+  section_minutes: 12                # long meetings are read in sections of this length
+
+storage:
+  enabled: true                      # save each meeting (needed for "Create notes again")
+  folder: meetings                   # inside backend, or a full path such as "C:/MeetMind-meetings"
+  keep_days: 7                       # older meetings are deleted automatically
+
+quality:
+  show_in_files: true                # "Quality" section in MOM.md and the Word report
+
+# Optional local AI (https://ollama.com). Used only when the online AIs are unavailable.
+ollama:
+  enabled: auto                      # auto = use if Ollama is running; on / off
+  model: llama3.1:8b
+  base_url: http://localhost:11434
+  timeout_seconds: 120
+
+# Optional local speech models (pip install -r requirements-extra.txt). Run only on doubtful parts.
+local_models:
+  whisper_model: small               # tiny, base, small, medium, large-v3
+  whisper_compute: int8
+  indic_model: ai4bharat/indic-conformer-600m-multilingual
+
+# ---------------------------------------------------------------------
+#  MeetMind bot (joins as a guest from this computer)
+# ---------------------------------------------------------------------
+bot:
+  enabled: true                      # Render / no screen: set false and use "Record here"
+  bot_name: "MeetMind Notetaker"     # keep "Notetaker" so people know they are recorded
+  admit_timeout_minutes: 10
+  leave_when_alone_minutes: 0.5         # everyone else left (no names, no sound): stop + write notes after 30 s
+  max_meeting_minutes: 180
+  piece_seconds: 120                 # audio is heard in 2-minute pieces during the call
+  headless: false                    # true = no window at all (Meet refuses hidden browsers more often)
+  silent: true                       # true = bot records but plays NO sound on this PC (no echo for you)
+  stop_when_you_leave: true          # true = bot stops + writes notes ~15 s after YOU leave the call
+  browser: chrome                    # your installed Google Chrome (falls back to Chromium)
+  # Keep this OUTSIDE OneDrive, e.g. "C:/MeetMind-bot-profile". A plain name = folder inside backend.
+  profile_dir: bot-profile
+  # Only if Google redesigns Meet and the bot cannot find something:
+  # selectors:
+  #   captions_button: 'button[aria-label*="turn on captions" i]'
+
+speech:
+  engine: auto                       # kept for older setups; the ears above decide
+
+limits:
+  daily_audio_minutes_per_user: 300  # fair use per extension install (mic + call = 2 tracks)
+  max_chunk_mb: 25
+  max_screenshots: 60
+
+cors:
+  allowed_extension_ids: []          # empty = any MeetMind extension (the app token still protects it)

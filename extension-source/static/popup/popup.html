@@ -1,0 +1,332 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>MeetMind</title>
+    <link rel="stylesheet" href="../styles/theme.css" />
+    <link rel="stylesheet" href="popup.css" />
+    <script type="module" src="popup.js"></script>
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="brand">
+        <span class="brand__mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+        <span class="brand__name">MeetMind</span>
+      </div>
+      <div class="topbar__right">
+        <span id="server-status" class="status" data-state="waking" role="status">
+          <span class="status__dot"></span><span id="server-text">Connecting</span>
+        </span>
+        <button id="settings-btn" class="icon-btn" type="button" aria-label="Setup and settings" title="Setup and settings">
+          <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M19.4 13a7.6 7.6 0 0 0 0-2l2.1-1.6-2-3.5-2.5 1a7.4 7.4 0 0 0-1.7-1L15 3.3h-4l-.4 2.6a7.4 7.4 0 0 0-1.7 1l-2.5-1-2 3.5L6.6 11a7.6 7.6 0 0 0 0 2l-2.1 1.6 2 3.5 2.5-1a7.4 7.4 0 0 0 1.7 1l.3 2.6h4l.4-2.6a7.4 7.4 0 0 0 1.7-1l2.5 1 2-3.5L19.4 13ZM12 15.5A3.5 3.5 0 1 1 12 8.5a3.5 3.5 0 0 1 0 7Z"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <main class="content">
+      <!-- config.js not filled in (admin) -->
+      <section data-view="config" class="view view--center" hidden>
+        <svg class="spot" viewBox="0 0 160 110" width="160" height="110" aria-hidden="true">
+          <rect x="22" y="14" width="116" height="82" rx="14" fill="var(--card)" stroke="var(--line-strong)" />
+          <rect x="22" y="14" width="116" height="20" rx="14" fill="var(--marigold-soft)" />
+          <circle cx="36" cy="24" r="3" fill="var(--marigold)" /><circle cx="46" cy="24" r="3" fill="var(--marigold)" opacity=".6" />
+          <rect x="36" y="46" width="52" height="7" rx="3.5" fill="var(--marigold)" />
+          <rect x="36" y="60" width="84" height="7" rx="3.5" fill="var(--line-strong)" />
+          <rect x="36" y="74" width="40" height="7" rx="3.5" fill="var(--line-strong)" />
+          <circle class="spot__pulse" cx="124" cy="82" r="12" fill="var(--marigold)" />
+          <path d="M124 76v7M124 87v.5" stroke="#fff" stroke-width="2.6" stroke-linecap="round" />
+        </svg>
+        <h1 class="title">Server details are missing</h1>
+        <p class="muted">Ask the person who shared MeetMind to fill in <code>config.js</code>:</p>
+        <ul id="config-problems" class="problems"></ul>
+      </section>
+
+      <!-- First run -->
+      <section data-view="setup" class="view view--center" hidden>
+        <div class="lanes lanes--hero" aria-hidden="true">
+          <div class="lane lane--you"><span class="lane__dot"></span><span class="lane__wave"></span></div>
+          <div class="lane lane--call"><span class="lane__dot"></span><span class="lane__wave"></span></div>
+        </div>
+        <h1 class="title">Welcome to MeetMind</h1>
+        <p class="muted">A one-minute setup: a server check, your name and your microphone.</p>
+        <button id="open-setup" type="button" class="btn btn--primary btn--block">Start setup</button>
+      </section>
+
+      <!-- Choose how to record -->
+      <section data-view="start" class="view" hidden>
+        <div class="stage stage--start">
+          <div class="stage__head">
+            <span class="live-tag" id="start-tag"><span class="live-tag__dot" aria-hidden="true"></span><span id="start-tag-text">In a call</span></span>
+            <span id="start-code" class="stage__code" hidden></span>
+          </div>
+          <p id="start-title" class="stage__title">Google Meet call</p>
+          <p id="start-note" class="stage__note">Choose how MeetMind records this meeting.</p>
+        </div>
+
+        <div class="segmented" role="tablist" aria-label="How to record">
+          <button id="tab-bot" class="segmented__tab" type="button" role="tab" aria-controls="panel-bot">
+            <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M12 2a1 1 0 0 1 1 1v1.1A7 7 0 0 1 19 11v5a3 3 0 0 1-3 3H8a3 3 0 0 1-3-3v-5a7 7 0 0 1 6-6.9V3a1 1 0 0 1 1-1Zm-3 9a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3Zm6 0a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3ZM8 20h8v2H8v-2Z"/></svg>
+            <span><b>MeetMind bot</b><small>Most accurate</small></span>
+          </button>
+          <button id="tab-record" class="segmented__tab" type="button" role="tab" aria-controls="panel-record">
+            <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M12 14a3 3 0 0 0 3-3V5a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3Zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.9V21h2v-3.1A7 7 0 0 0 19 11h-2Z"/></svg>
+            <span><b>Record here</b><small>In this browser</small></span>
+          </button>
+        </div>
+
+        <!-- Bot -->
+        <div id="panel-bot" class="panel" role="tabpanel" aria-labelledby="tab-bot">
+          <div class="field">
+            <label class="field__label" for="bot-link">Meeting link</label>
+            <span class="field__control">
+              <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path fill="currentColor" d="M10.6 13.4a1 1 0 0 1 0-1.4l3.5-3.5a3 3 0 1 1 4.2 4.2l-2 2-1.4-1.4 2-2a1 1 0 0 0-1.4-1.4L12 13.4a1 1 0 0 1-1.4 0Zm2.8-2.8a1 1 0 0 1 0 1.4l-3.5 3.5a3 3 0 1 1-4.2-4.2l2-2 1.4 1.4-2 2a1 1 0 1 0 1.4 1.4l3.5-3.5a1 1 0 0 1 1.4 0Z"/></svg>
+              <input id="bot-link" type="text" inputmode="url" autocomplete="off" spellcheck="false" placeholder="Paste any Meet link, e.g. meet.google.com/abc-defg-hij" aria-describedby="bot-link-hint" />
+              <button id="bot-paste" class="field__action" type="button">Paste</button>
+            </span>
+            <small id="bot-link-hint" class="field__hint" aria-live="polite">Paste any Google Meet link. The bot joins as a guest; someone clicks Admit.</small>
+          </div>
+          <ul class="perks" aria-label="Why use the bot">
+            <li>Clean call audio straight from Meet</li>
+            <li>Exact names from captions only the bot sees</li>
+            <li>Keeps recording even if you leave</li>
+          </ul>
+        </div>
+
+        <!-- Record in this browser -->
+        <div id="panel-record" class="panel" role="tabpanel" aria-labelledby="tab-record" hidden>
+          <fieldset class="modes">
+            <legend class="sr-only">What to record</legend>
+            <label class="mode">
+              <input type="radio" name="mode" value="audio" checked />
+              <span class="mode__card">
+                <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M12 14a3 3 0 0 0 3-3V5a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3Zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.9V21h2v-3.1A7 7 0 0 0 19 11h-2Z"/></svg>
+                <b>Audio</b>
+                <small>Transcript, minutes and tasks</small>
+              </span>
+            </label>
+            <label class="mode">
+              <input type="radio" name="mode" value="audio_video" />
+              <span class="mode__card">
+                <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M17 10.5V7a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-3.5l4 4v-11l-4 4Z"/></svg>
+                <b>Audio and video</b>
+                <small>Also the video and screenshots</small>
+              </span>
+            </label>
+          </fieldset>
+          <div id="record-offmeet" class="alert alert--info small" hidden>Open the Meet tab, then click MeetMind there to record in this browser.</div>
+        </div>
+
+        <div class="settings">
+          <div id="mic-row" class="row">
+            <label for="mic-toggle" class="row__label">
+              <span>Include my microphone</span>
+              <small id="mic-hint" class="muted">Records your own voice too</small>
+            </label>
+            <input id="mic-toggle" class="switch" type="checkbox" role="switch" />
+          </div>
+          <div class="row">
+            <label for="language" class="row__label">
+              <span>Spoken language</span>
+              <small class="muted">Auto works for English and Hinglish</small>
+            </label>
+            <select id="language" class="select">
+              <option value="auto">Auto detect</option>
+              <option value="en">English</option>
+              <option value="hi">Hindi</option>
+            </select>
+          </div>
+        </div>
+
+        <div id="start-error" class="alert alert--error" role="alert" hidden></div>
+        <button id="bot-join" type="button" class="btn btn--primary btn--block btn--tall">
+          <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M13 3 4 14h7l-1 7 9-11h-7l1-7Z"/></svg>
+          <span id="bot-join-label">Join meeting via bot</span>
+        </button>
+        <button id="start-btn" type="button" class="btn btn--record btn--block btn--tall" hidden>
+          <span class="btn__dot" aria-hidden="true"></span><span id="start-label">Start recording</span>
+        </button>
+        <p class="footnote"><span id="minutes-left"></span>Let everyone in the call know they are recorded.</p>
+      </section>
+
+      <!-- The bot is working -->
+      <section data-view="bot" class="view" hidden>
+        <div id="bot-stage" class="stage stage--bot" data-phase="starting">
+          <div class="stage__head">
+            <span class="rec"><span class="rec__dot" aria-hidden="true"></span><span id="bot-phase">Starting</span></span>
+            <span id="bot-code" class="stage__tag"></span>
+          </div>
+          <div class="bot-orb" aria-hidden="true"><i></i><i></i><i></i><span></span></div>
+          <p id="bot-timer" class="stage__timer stage__timer--center">--:--:--</p>
+          <p id="bot-sub" class="stage__sub stage__sub--center">Opening the meeting…</p>
+        </div>
+        <ol id="bot-track" class="track" aria-label="Bot progress">
+          <li>Join</li>
+          <li>Admit</li>
+          <li>Record</li>
+          <li>Notes</li>
+        </ol>
+        <dl id="bot-facts" class="facts facts--light">
+          <div><dt>People</dt><dd id="bot-people">0</dd></div>
+          <div><dt>Words heard</dt><dd id="bot-words">0</dd></div>
+          <div><dt>Captions</dt><dd id="bot-cc">Off</dd></div>
+        </dl>
+        <div id="bot-lines-block" class="block">
+          <p class="label">Latest from the call</p>
+          <ul id="bot-lines" class="lines" aria-live="polite"><li class="lines__empty">What people say appears here, with their names.</li></ul>
+        </div>
+        <p id="bot-health" class="health" role="status" hidden></p>
+        <div id="bot-warnings" class="alert alert--warn small" hidden></div>
+        <button id="bot-stop" type="button" class="btn btn--stop btn--block btn--tall">
+          <span class="btn__square" aria-hidden="true"></span><span id="bot-stop-label">Stop and create notes</span>
+        </button>
+        <button id="bot-live" type="button" class="btn btn--link btn--block">Open the full live view</button>
+      </section>
+
+      <!-- Recording in this browser -->
+      <section data-view="recording" class="view" hidden>
+        <div class="stage">
+          <div class="stage__head">
+            <span class="rec"><span class="rec__dot" aria-hidden="true"></span>Recording</span>
+            <span id="mode-tag" class="stage__tag">Audio</span>
+          </div>
+          <p id="timer" class="stage__timer">00:00:00</p>
+          <p id="rec-title" class="stage__sub"></p>
+          <div class="ribbon" id="ribbon" aria-hidden="true"></div>
+          <div class="legend">
+            <span class="legend__item legend__item--you" id="meter-mic-row"><i></i>Your mic</span>
+            <span class="legend__item legend__item--call"><i></i>The call</span>
+          </div>
+        </div>
+
+        <div class="block">
+          <p class="label">People in this call</p>
+          <div id="speakers" class="people" aria-live="polite"></div>
+        </div>
+
+        <div id="shots-block" class="block shots" hidden>
+          <img id="shot-thumb" class="shots__thumb" alt="Latest screenshot" />
+          <div>
+            <p id="shot-count" class="shots__count">No screenshots yet</p>
+            <p class="muted small">A new one is taken when the shared screen changes.</p>
+          </div>
+        </div>
+
+        <div class="block">
+          <div class="pieces__head">
+            <p class="label">Audio sent for transcription</p>
+            <span id="next-upload" class="muted small"></span>
+          </div>
+          <div id="piece-dots" class="pieces"></div>
+        </div>
+
+        <button id="stop-btn" type="button" class="btn btn--stop btn--block btn--tall">
+          <span class="btn__square" aria-hidden="true"></span>Stop and create notes
+        </button>
+      </section>
+
+      <!-- Processing (browser recording) -->
+      <section data-view="stopping" class="view view--center" hidden>
+        <div class="ring" aria-hidden="true">
+          <svg viewBox="0 0 120 120" width="120" height="120">
+            <circle class="ring__track" cx="60" cy="60" r="52" />
+            <circle id="ring-bar" class="ring__bar" cx="60" cy="60" r="52" />
+          </svg>
+          <span id="ring-text" class="ring__text">0%</span>
+        </div>
+        <h1 class="title">Preparing your meeting notes</h1>
+        <ol class="steps">
+          <li id="step-save" class="step"><span class="step__icon"></span><span>Saving the last audio<span id="step-save-video"> and the video</span></span></li>
+          <li id="step-transcribe" class="step"><span class="step__icon"></span>Turning speech into text</li>
+          <li id="step-names" class="step"><span class="step__icon"></span>Fixing spellings and naming speakers</li>
+          <li id="step-summary" class="step"><span class="step__icon"></span>Writing the summary and tasks</li>
+        </ol>
+        <p id="processing-hint" class="muted small" aria-live="polite">You can close this window. MeetMind keeps working.</p>
+      </section>
+
+      <!-- Results (browser recording or bot) -->
+      <section data-view="done" class="view" hidden>
+        <div class="stage stage--done">
+          <div class="done">
+            <svg class="tick" viewBox="0 0 52 52" width="44" height="44" aria-hidden="true">
+              <circle class="tick__circle" cx="26" cy="26" r="24" />
+              <path class="tick__mark" d="M15 27l7 7 15-15" />
+            </svg>
+            <div class="done__text">
+              <h1 class="stage__heading">Your meeting notes are ready</h1>
+              <p id="done-title" class="stage__sub"></p>
+            </div>
+          </div>
+          <dl class="facts">
+            <div><dt>Length</dt><dd id="stat-duration">0</dd></div>
+            <div><dt>People</dt><dd id="stat-speakers">0</dd></div>
+            <div><dt>Tasks</dt><dd id="stat-tasks">0</dd></div>
+            <div><dt>Words fixed</dt><dd id="stat-fixed">0</dd></div>
+          </dl>
+        </div>
+
+        <div id="failed-card" class="alert alert--warn inline-alert" hidden>
+          <span id="failed-text"></span>
+          <button id="retry-btn" type="button" class="btn btn--ghost btn--small">Retry</button>
+        </div>
+        <div id="report-error" class="alert alert--warn inline-alert" hidden>
+          <span id="report-error-text"></span>
+          <button id="analyze-btn" type="button" class="btn btn--ghost btn--small">Try again</button>
+        </div>
+
+        <article id="summary-card" class="summary" hidden>
+          <p class="label">Summary</p>
+          <p id="summary-text" class="summary__text"></p>
+        </article>
+
+        <article id="quality-card" class="quality" hidden>
+          <div class="quality__head">
+            <p class="label">Quality <span class="muted">(estimated)</span></p>
+            <span id="quality-overall" class="quality__overall">–</span>
+          </div>
+          <ul id="quality-bars" class="quality__bars"></ul>
+          <p id="quality-note" class="muted small" hidden></p>
+        </article>
+
+        <div id="tasks-block" class="block" hidden>
+          <p class="label">Action items</p>
+          <ul id="task-list" class="tasks"></ul>
+          <p id="tasks-more" class="muted small" hidden></p>
+        </div>
+
+        <button id="download-all" type="button" class="btn btn--primary btn--block btn--tall">
+          <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M12 16 7 11l1.4-1.4 2.6 2.6V4h2v8.2l2.6-2.6L17 11l-5 5Zm-7 4v-2h14v2H5Z"/></svg>
+          <span id="download-all-label">Download all files</span>
+        </button>
+        <div class="files" role="group" aria-label="Download one file">
+          <button type="button" class="file" data-kind="docx"><span class="file__mark file__mark--doc">W</span>Word report</button>
+          <button type="button" class="file" data-kind="xlsx"><span class="file__mark file__mark--xls">X</span>Task tracker</button>
+          <button type="button" class="file" data-kind="mom"><span class="file__mark file__mark--md">M</span>MOM.md</button>
+          <button type="button" class="file" data-kind="readme"><span class="file__mark file__mark--md">R</span>README.md</button>
+          <button type="button" class="file file--wide" data-kind="transcript"><span class="file__mark file__mark--txt">T</span>Transcript</button>
+        </div>
+        <p id="video-note" class="video-note" hidden></p>
+        <p id="engine-note" class="footnote" hidden></p>
+
+        <button id="renotes-btn" type="button" class="btn btn--ghost btn--block" hidden>Create notes again</button>
+        <button id="new-btn" type="button" class="btn btn--link btn--block">Start a new recording</button>
+      </section>
+
+      <!-- Error -->
+      <section data-view="error" class="view view--center" hidden>
+        <svg class="spot" viewBox="0 0 160 110" width="160" height="110" aria-hidden="true">
+          <circle cx="80" cy="55" r="40" fill="var(--error-soft)" />
+          <circle cx="80" cy="55" r="26" fill="var(--card)" stroke="var(--error-ink)" stroke-width="2" opacity=".9" />
+          <rect x="77" y="40" width="6" height="19" rx="3" fill="var(--error-ink)" />
+          <circle cx="80" cy="67" r="3.5" fill="var(--error-ink)" />
+        </svg>
+        <h1 id="error-title" class="title">The recording stopped</h1>
+        <p id="error-text" class="muted"></p>
+        <button id="reset-btn" type="button" class="btn btn--primary btn--block">Start again</button>
+      </section>
+
+      <div id="warnings" class="alert alert--warn small" role="status" hidden></div>
+    </main>
+
+    <div id="toast" class="toast" role="status" hidden></div>
+  </body>
+</html>

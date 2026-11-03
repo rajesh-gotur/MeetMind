@@ -1,0 +1,53 @@
+MeetMind 5.0 - quick start (Windows)
+====================================
+
+0. Clean start
+     - Close every terminal that runs an old MeetMind server
+     - PowerShell:  netstat -ano | findstr :8000
+       For every LISTENING line:  taskkill /F /PID <last number on the line>
+     - chrome://extensions -> Remove every old MeetMind
+
+1. Unzip into a NEW folder outside OneDrive, for example C:\MeetMind
+   (you get C:\MeetMind\MeetMind\...)
+
+2. backend\config.yaml -> the QUICK SETUP block at the top:
+     app_token : make one with
+                 python -c "import secrets; print(secrets.token_urlsafe(32))"
+     Gemini, Deepgram, Groq keys (your keys are already filled in)
+
+3. extension\config.js -> appToken : the SAME token as in step 2
+
+4. Start the server (PowerShell or the VS Code terminal):
+     cd C:\MeetMind\MeetMind\backend
+     python -m venv .venv
+     .venv\Scripts\activate
+     python -m pip install -r requirements.txt
+     python -m playwright install chromium
+     python run.py
+
+   The top MUST show:
+     MeetMind backend v5.0.0
+     Ears   : Gemini gemini-3.5-transcribe + Deepgram nova-3 + Meet captions (bot)
+     Layers : audio prep PyAV, voice detection Silero VAD, glossary fixer on, AI fixer on
+     MeetMind bot : ready, joins as a guest "MeetMind Notetaker"
+   Keep this window open. Every step of every meeting is shown here.
+
+   Optional (offline backup + extra Hindi ear):
+     python -m pip install -r requirements-extra.txt
+
+5. Chrome: chrome://extensions -> Developer mode ON -> Load unpacked
+     -> C:\MeetMind\MeetMind\extension   (Details must say Version 5.0.0)
+   The setup page must show all green ticks.
+
+6. Record a meeting: click the MeetMind icon
+     MeetMind bot : paste any Meet link -> Join meeting via bot -> Admit it in the meeting
+     Record here  : on the Meet tab -> Start recording
+   Then: Download all files. Check the Quality score.
+   Bot meetings: "Create notes again" rewrites the notes from the saved meeting.
+
+Next time you only need:
+     cd C:\MeetMind\MeetMind\backend
+     .venv\Scripts\activate
+     python run.py
+
+Full details: SETUP_GUIDE.md      What changed in 5.0 and why: ENHANCEMENT_PLAN.md
