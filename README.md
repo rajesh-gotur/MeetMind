@@ -11,6 +11,7 @@
   <img alt="TypeScript" src="https://img.shields.io/badge/TypeScript-extension-0E7A5A?style=for-the-badge&logo=typescript&logoColor=white&labelColor=0B3D2E"/>
   <img alt="Chrome MV3" src="https://img.shields.io/badge/Chrome-MV3%20·%20116%2B-E9A23B?style=for-the-badge&logo=googlechrome&logoColor=white&labelColor=0B3D2E"/>
   <img alt="Cost" src="https://img.shields.io/badge/cost-free%20tiers-E9A23B?style=for-the-badge&labelColor=0B3D2E"/>
+  <a href="LICENSE"><img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-0E7A5A?style=for-the-badge&labelColor=0B3D2E"/></a>
 </p>
 
 <h3>Turn any Google Meet call into finished, checked meeting notes —<br/>real speaker names, real owners, real dates. Nothing invented.</h3>
@@ -490,7 +491,7 @@ MeetMind/
 
 <div align="center">
 
-**Built by [Rajesh](https://github.com/rajesh-gotur)**
+**Built by [Rajesh](https://github.com/rajesh-gotur)** · Released under the [MIT License](LICENSE)
 
 <sub>If MeetMind saved you from writing minutes, leave a ⭐ on the repo.</sub>
 
