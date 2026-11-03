@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="1280" height="644" viewBox="0 0 1280 644">
+<rect width="1280" height="644" rx="22" fill="#F6F8F5"/>
+<text x="30" y="52" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="26" font-weight="800" fill="#18211C">The 12 accuracy layers</text>
+<text x="30" y="78" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="15" fill="#5E6B63">Every recording passes through all of them. Each AI step has a backup chain.</text>
+<rect x="30" y="96" width="290" height="5" rx="2.5" fill="#5E6B63"/>
+<text x="30" y="124" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="17" font-weight="800" fill="#18211C">01  Capture<tspan font-weight="400" fill="#5E6B63" font-size="14">  ·  Clean, find speech</tspan></text>
+<rect x="30" y="132" width="290" height="92" rx="14" fill="#FFFFFF" stroke="#E1E7E2"/>
+<rect x="46" y="150" width="46" height="26" rx="13" fill="#5E6B63" fill-opacity="0.14"/>
+<text x="69" y="168" text-anchor="middle" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13" font-weight="800" fill="#5E6B63">L1</text>
+<text x="104" y="169" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="17" font-weight="700" fill="#18211C">Clean audio</text>
+<text x="46" y="198" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13" font-weight="700" fill="#0E7A5A">PyAV</text>
+<text x="46" y="215" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13" fill="#5E6B63">Mono 16 kHz, steady loudness</text>
+<rect x="30" y="236" width="290" height="92" rx="14" fill="#FFFFFF" stroke="#E1E7E2"/>
+<rect x="46" y="254" width="46" height="26" rx="13" fill="#5E6B63" fill-opacity="0.14"/>
+<text x="69" y="272" text-anchor="middle" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13" font-weight="800" fill="#5E6B63">L2</text>
+<text x="104" y="273" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="17" font-weight="700" fill="#18211C">Find speech</text>
+<text x="46" y="302" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13" font-weight="700" fill="#0E7A5A">Silero VAD</text>
+<text x="46" y="319" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13" fill="#5E6B63">Skips silence, invents nothing</text>
+<rect x="340" y="96" width="290" height="5" rx="2.5" fill="#0E7A5A"/>
+<text x="340" y="124" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="17" font-weight="800" fill="#18211C">02  Hear<tspan font-weight="400" fill="#5E6B63" font-size="14">  ·  Independent ears</tspan></text>
+<rect x="340" y="132" width="290" height="92" rx="14" fill="#FFFFFF" stroke="#E1E7E2"/>
+<rect x="356" y="150" width="46" height="26" rx="13" fill="#0E7A5A" fill-opacity="0.14"/>
+<text x="379" y="168" text-anchor="middle" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13" font-weight="800" fill="#0E7A5A">L3</text>
+<text x="414" y="169" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="17" font-weight="700" fill="#18211C">Ear 1</text>
+<text x="356" y="198" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13" font-weight="700" fill="#0E7A5A">Gemini Transcribe</text>
+<text x="356" y="215" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13" fill="#5E6B63">Best words + Hinglish</text>
+<rect x="340" y="236" width="290" height="92" rx="14" fill="#FFFFFF" stroke="#E1E7E2"/>
+<rect x="356" y="254" width="46" height="26" rx="13" fill="#0E7A5A" fill-opacity="0.14"/>
+<text x="379" y="272" text-anchor="middle" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13" font-weight="800" fill="#0E7A5A">L4</text>
+<text x="414" y="273" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="17" font-weight="700" fill="#18211C">Ear 2</text>
+<text x="356" y="302" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13" font-weight="700" fill="#0E7A5A">Deepgram Nova-3</text>
+<text x="356" y="319" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13" fill="#5E6B63">Word times + confidence</text>
+<rect x="340" y="340" width="290" height="92" rx="14" fill="#FFFFFF" stroke="#E1E7E2"/>
+<rect x="356" y="358" width="46" height="26" rx="13" fill="#0E7A5A" fill-opacity="0.14"/>
+<text x="379" y="376" text-anchor="middle" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13" font-weight="800" fill="#0E7A5A">L5</text>
+<text x="414" y="377" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="17" font-weight="700" fill="#18211C">Ear 3</text>
+<text x="356" y="406" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13" font-weight="700" fill="#0E7A5A">Meet captions</text>
+<text x="356" y="423" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13" fill="#5E6B63">Real names (bot only)</text>
+<rect x="340" y="444" width="290" height="92" rx="14" fill="#FFFFFF" stroke="#E1E7E2"/>
+<rect x="356" y="462" width="46" height="26" rx="13" fill="#0E7A5A" fill-opacity="0.14"/>
+<text x="379" y="480" text-anchor="middle" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13" font-weight="800" fill="#0E7A5A">L6</text>
+<text x="414" y="481" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="17" font-weight="700" fill="#18211C">Extra ears</text>
+<text x="356" y="510" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13" font-weight="700" fill="#0E7A5A">Whisper · Indic</text>
+<text x="356" y="527" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13" fill="#5E6B63">Only doubtful parts</text>
+<rect x="650" y="96" width="290" height="5" rx="2.5" fill="#E9A23B"/>
+<text x="650" y="124" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="17" font-weight="800" fill="#18211C">03  Agree<tspan font-weight="400" fill="#5E6B63" font-size="14">  ·  Vote and fix</tspan></text>
+<rect x="650" y="132" width="290" height="92" rx="14" fill="#FFFFFF" stroke="#E1E7E2"/>
+<rect x="666" y="150" width="46" height="26" rx="13" fill="#E9A23B" fill-opacity="0.14"/>
+<text x="689" y="168" text-anchor="middle" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13" font-weight="800" fill="#18211C">L7</text>
+<text x="724" y="169" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="17" font-weight="700" fill="#18211C">Word vote</text>
+<text x="666" y="198" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13" font-weight="700" fill="#0E7A5A">ROVER-style</text>
+<text x="666" y="215" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13" fill="#5E6B63">Ears vote word by word</text>
+<rect x="650" y="236" width="290" height="92" rx="14" fill="#FFFFFF" stroke="#E1E7E2"/>
+<rect x="666" y="254" width="46" height="26" rx="13" fill="#E9A23B" fill-opacity="0.14"/>
+<text x="689" y="272" text-anchor="middle" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13" font-weight="800" fill="#18211C">L8</text>
+<text x="724" y="273" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="17" font-weight="700" fill="#18211C">Glossary fixer</text>
+<text x="666" y="302" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13" font-weight="700" fill="#0E7A5A">RapidFuzz</text>
+<text x="666" y="319" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13" fill="#5E6B63">ERP next → ERPNext</text>
+<rect x="650" y="340" width="290" height="92" rx="14" fill="#FFFFFF" stroke="#E1E7E2"/>
+<rect x="666" y="358" width="46" height="26" rx="13" fill="#E9A23B" fill-opacity="0.14"/>
+<text x="689" y="376" text-anchor="middle" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13" font-weight="800" fill="#18211C">L9</text>
+<text x="724" y="377" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="17" font-weight="700" fill="#18211C">AI fixer</text>
+<text x="666" y="406" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13" font-weight="700" fill="#0E7A5A">Gemini → Groq</text>
+<text x="666" y="423" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13" fill="#5E6B63">Picks heard versions only</text>
+<rect x="650" y="444" width="290" height="92" rx="14" fill="#FFFFFF" stroke="#E1E7E2"/>
+<rect x="666" y="462" width="46" height="26" rx="13" fill="#E9A23B" fill-opacity="0.14"/>
+<text x="689" y="480" text-anchor="middle" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13" font-weight="800" fill="#18211C">L10</text>
+<text x="724" y="481" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="17" font-weight="700" fill="#18211C">Speaker vote</text>
+<text x="666" y="510" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13" font-weight="700" fill="#0E7A5A">3 signals</text>
+<text x="666" y="527" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13" fill="#5E6B63">Crosstalk → Unclear</text>
+<rect x="960" y="96" width="290" height="5" rx="2.5" fill="#12503D"/>
+<text x="960" y="124" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="17" font-weight="800" fill="#18211C">04  Write<tspan font-weight="400" fill="#5E6B63" font-size="14">  ·  Facts, then notes</tspan></text>
+<rect x="960" y="132" width="290" height="92" rx="14" fill="#FFFFFF" stroke="#E1E7E2"/>
+<rect x="976" y="150" width="46" height="26" rx="13" fill="#12503D" fill-opacity="0.14"/>
+<text x="999" y="168" text-anchor="middle" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13" font-weight="800" fill="#12503D">L11</text>
+<text x="1034" y="169" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="17" font-weight="700" fill="#18211C">Facts first</text>
+<text x="976" y="198" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13" font-weight="700" fill="#0E7A5A">Gemini</text>
+<text x="976" y="215" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13" fill="#5E6B63">Quotes verified vs transcript</text>
+<rect x="960" y="236" width="290" height="92" rx="14" fill="#FFFFFF" stroke="#E1E7E2"/>
+<rect x="976" y="254" width="46" height="26" rx="13" fill="#12503D" fill-opacity="0.14"/>
+<text x="999" y="272" text-anchor="middle" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13" font-weight="800" fill="#12503D">L12</text>
+<text x="1034" y="273" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="17" font-weight="700" fill="#18211C">Second opinion</text>
+<text x="976" y="302" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13" font-weight="700" fill="#0E7A5A">Groq reviewer</text>
+<text x="976" y="319" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13" fill="#5E6B63">Adds missed, drops unbacked</text>
+<rect x="30" y="584" width="1220" height="40" rx="12" fill="#0B3D2E"/>
+<text x="640.0" y="610" text-anchor="middle" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="15" font-weight="600" fill="#FFFFFF">Result:  MOM.md  ·  Meeting_Report.docx  ·  Action_Tracker.xlsx  ·  Transcript.txt  ·  <tspan fill="#E9A23B">Quality score 0–100</tspan></text>
+</svg>
